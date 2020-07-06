@@ -123,8 +123,7 @@
                 <button class="btn btn-info show_permissions">نمایش اجازه های دسترسی</button>
 
                 <div class="block_permissions" style="display:none;">
-                    {{-- @foreach($permissions as $permission)
-                    @if($user->hasPermissionTo($permission->id))
+                    @foreach($user->roles[0]->permissions as $permission)
                     <div class="checkbox checkbox-primary col-md-12 text-right">
                         <span class="fal fa-check text-success"></span>
                         <label>
@@ -132,8 +131,7 @@
                         </label>
 
                     </div>
-                    @endif
-                    @endforeach --}}
+                    @endforeach
                 </div>
 
             </td>
@@ -205,7 +203,7 @@
 
     $(".show_permissions").click(function(){
       
-        $(this).siblings('.block_permissions').fadeToggle();
+        $(this).siblings('.block_permissions').toggle();
         
 });
     });

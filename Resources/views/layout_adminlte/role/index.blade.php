@@ -18,8 +18,8 @@
 @else
 
 <table data-toggle="table" data-pagination="true" data-search="true" data-use-row-attr-func="true"
-        data-reorderable-rows="true" data-locale="fa-IR"
-        class="table table-hover tablesorter table-striped table-borderd text-center">
+    data-reorderable-rows="true" data-locale="fa-IR"
+    class="table table-hover tablesorter table-striped table-borderd text-center">
     <thead>
         <tr class="info">
             <th>
@@ -50,39 +50,44 @@
                     href="/admin/user/role/destroy?id={{$role->id}}">
                 </a>
             </td>
-
-
             <td>
                 {{$role->display_name}}
-
-
-
-                <button class="btn btn-info show_permissions">نمایش اجازه های دسترسی</button>
+                <button class="btn btn-info show_permissions">نمایش گروه های اجازه های دسترسی</button>
 
                 <div class="block_permissions" style="display:none;">
 
-                @foreach($permissions as $permission)
-                <div class="checkbox checkbox-primary col-md-12 text-right">
-                    <input $role-="" class="styled setpermission" id="{{$role->email.$permission->id}}" type="checkbox"
-                        name="permission{{$role->id}}" value="{{$permission->id}}"
-                        {{ $role->hasPermissionTo($permission->id) ? 'checked' : '' }} />
-                    <label for="{{$role->email.$permission->id}}">
-                        {{$permission->display_name}}
-                    </label>
 
-                </div>
-                @endforeach
-                <a class="submit_setpermission btn btn-primary ladda-button" data-size="l" data-style="zoom-out" href="#"
-                    style="display:none;" role="{{$role->id}}">
+
+                    @foreach($permission_groups as $permission_group)
+
+                    <div style="border:2px solid #222;padding-top:10px;" class="col-md-12">
+                        <h3> {{$permission_group['name']}} </h3>
+                        <input class="setpermission_group styled" type="checkbox" />
+                        <button class="btn btn-info show_permissions">نمایش اجازه های دسترسی</button>
+
+                        <div class="block_permissions permission_group" style="display:none;">
+                            @foreach($permission_group['permissions'] as $permission)
+                            <div class="checkbox checkbox-primary col-md-12 text-right">
+                                <input class="styled setpermission" id="{{$permission->id}}" type="checkbox"
+                                    name="permission{{$role->id}}" value="{{$permission->id}}"
+                                    {{ $role->hasPermissionTo($permission->id) ? 'checked' : '' }} />
+                                <label for="{{$role->email.$permission->id}}">
+                                    {{$permission->display_name}}
+                                </label>
+
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endforeach </div>
+                <a class="submit_setpermission btn btn-primary ladda-button" data-size="l" data-style="zoom-out"
+                    href="#" style="display:none;position: fixed;bottom:50px;left:50px;" role="{{$role->id}}">
                     <span class="ladda-label">
-                        {{ trans('user::messages.edit') }}
+                        {{ trans('user::messages.edit').' '.trans('user::messages.permissions') }}
                     </span>
                 </a>
-                </div>
 
             </td>
-
-
             <td>
                 {{$role->description}}
             </td>
@@ -99,50 +104,61 @@
     </tbody>
 </table>
 @endif
-
-
-
-
-
-
-
-
-
 <script type="text/javascript">
     $( document ).ready(function() {
 
+
+        $('.permission_group').each(function(){
+           
+
+            var all_checkboxes = $(this).find('input:checkbox');
+            
+
+            if (all_checkboxes.length === all_checkboxes.filter(":checked").length) {
+                $(this).closest('.permission_group').siblings('.setpermission_group').prop('checked', true);
+            }
+        })
+        
+
+
     $(".show_permissions").click(function(){
       
-        $(this).siblings('.block_permissions').fadeToggle();
+        $(this).siblings('.block_permissions').toggle();
         
 });
-    });
-</script>
+$('.setpermission_group').click(function(e) {
+    $(this).closest('td').find('.submit_setpermission').css('display', 'block');
 
-<script type="text/javascript">
-    $('.setpermission').change(function(e) {
+       $(this).siblings('.block_permissions').find('input:checkbox').not(this).prop('checked', this.checked);
+
+   });
+
+$('.setpermission').change(function(e) {
+       
 		$(this).closest('td').find('.submit_setpermission').css('display', 'block');
 
 	});
+
 	$('.submit_setpermission').click(function(e) {
-		var permission = $(this).closest('td').find('input:checkbox:checked').map(function() {
+		var permissions = $(this).closest('td').find('.setpermission:checked').map(function() {
 			return this.value;
 		}).get();
 
+       
         
         var role = $(this).attr('role');
         
 
 		e.preventDefault();
-		var l = Ladda.create(this);
-		l.start();
+		// var l = Ladda.create(this);
+		// l.start();
 
 		$.ajax({
 			type : "POST",
 			url : "{{Request::root()}}/admin/user/setpermission",
 			data : {
 				role : role,
-				permission : permission,
+				permission : permissions,
 				_token : '{!! csrf_token() !!}'
 
 			},
@@ -156,18 +172,15 @@
 				$('#ajax_response').html(xhr.responseText);
 			}
 		}, 'json').always(function() {
-			l.stop();
+			// l.stop();
 		});
 		$(this).fadeOut("slow");
 
 	});
 
+    });
+
+  
 </script>
-
-
-
-
-
-
 
 @stop

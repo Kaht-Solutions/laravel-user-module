@@ -16,25 +16,59 @@ class RoleController extends Controller
     public function Index()
     {
 
-        $roles = Role::all();
+        $roles = Role::get();
 
         $permissions = Permission::all();
 
-        return view('user::'.env("ADMIN_THEME").'.role.index')->with('roles', $roles)->with('permissions', $permissions);
+        $permission_groups = $permission_group_name = [];
+
+        foreach ($permissions as $permission) {
+            $name_exploded = explode('/', $permission->name);
+            if (isset($name_exploded[1]) && ($name_exploded[1] == "user" || $name_exploded[1] == "blog")) {
+                $group_name = implode('/', [$name_exploded[0], $name_exploded[1]]);
+            } elseif (isset($name_exploded[2])) {
+                $group_name = implode('/', [$name_exploded[0], $name_exploded[1], $name_exploded[2]]);
+            } elseif (isset($name_exploded[1])) {
+                $group_name = implode('/', [$name_exploded[0], $name_exploded[1]]);
+            }
+
+            if (!in_array($group_name, $permission_group_name)) {
+
+                $permission_group_name[] = $group_name;
+
+            }
+
+            $uri_array = explode('/', $group_name);
+            $display_name_array = [];
+            foreach ($uri_array as $obj) {
+                if ($obj) {
+                    $display_name_array[] = trans('theme::routing.' . $obj);
+                }
+            }
+            $display_name = implode(' -> ', $display_name_array);
+            $permission_groups[$group_name]['name'] = $display_name;
+            $permission_groups[$group_name]['permissions'][] = $permission;
+
+        }
+
+        return view('user::' . env("ADMIN_THEME") . '.role.index')
+            ->with('roles', $roles)
+            ->with('permissions', $permissions)
+            ->with('permission_groups', $permission_groups);
     }
 
     public function Show()
     {
         $role = Role::find(Request::get('id'));
 
-        return view('user::'.env("ADMIN_THEME").'.role.show')->with('role', $role);
+        return view('user::' . env("ADMIN_THEME") . '.role.show')->with('role', $role);
 
     }
 
     public function Create()
     {
         $provinces = Province::all();
-        return view('user::'.env("ADMIN_THEME").'.role.create', ['provinces' => $provinces]);
+        return view('user::' . env("ADMIN_THEME") . '.role.create', ['provinces' => $provinces]);
     }
 
     public function Store(Request $request)
@@ -62,7 +96,7 @@ class RoleController extends Controller
         $id = $request->input('id');
         $role = Role::find($id);
         $provinces = Province::all();
-        return view('user::'.env("ADMIN_THEME").'.role.edit')->with('role', $role)->with('provinces', $provinces);
+        return view('user::' . env("ADMIN_THEME") . '.role.edit')->with('role', $role)->with('provinces', $provinces);
     }
 
     public function Update(Request $request)

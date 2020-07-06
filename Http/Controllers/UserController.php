@@ -18,24 +18,18 @@ class UserController extends Controller
     public function index(Request $request)
     {
 
-        if ($request->filled('type')) {
-            $type = $request->type;
-
-            $role = Role::where('name', $type)->first();
-            if ($role) {
-
-                $users = User::join('usermodule_user_has_roles', 'usermodule_users.id', 'usermodule_user_has_roles.user_id')->where('usermodule_user_has_roles.role_id', $role->id)->get();
-            } else {
-                $users = User::where('id', 0)->get();
-            }
-        } else {
-            $users = User::where('id', '!=', 5)->get();
-        }
+        $users = User::
+            when($request->filled('type'), function ($query) use ($request) {
+            $query->whereHas('roles', function ($sub_query) use ($request) {
+                $sub_query->where('name', $request->type);
+            });
+        })
+            ->with(['roles.permissions'])
+            ->get();
 
         $roles = Role::all();
-        $permissions = Permission::select(['id', 'display_name'])->get();
 
-        return view('user::' . env("ADMIN_THEME") . '.user.index')->with(['users' => $users, 'permissions' => $permissions, 'roles' => $roles]);
+        return view('user::' . env("ADMIN_THEME") . '.user.index')->with(['users' => $users, 'roles' => $roles]);
     }
 
     public function adminindex()
