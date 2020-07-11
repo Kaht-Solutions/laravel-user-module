@@ -91,6 +91,10 @@
                 </i> @else
                 <i class="fa fa-circle" style="color:#F44336">
                 </i> @endif
+                @if(config('app.admin_log_enabled'))
+                <a class="btn btn-warning" href="/admin/activity?causer_id={{$user->id}}"><i
+                        class="fa fa-clock"></i></a>
+                @endif
             </td>
 
             <td>

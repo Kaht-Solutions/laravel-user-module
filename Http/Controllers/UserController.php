@@ -202,6 +202,7 @@ class UserController extends Controller
     }
     public function setpermission(Request $request)
     {
+
         if ($request->filled('role')) {
             $role = $request->input('role');
             $permission = $request->input('permission');
@@ -261,29 +262,27 @@ class UserController extends Controller
                 $display_name = implode(' -> ', $display_name_array);
                 $route_uris[] = $route->uri;
 
-                try {
+                $permission = Permission::where('name', $route->uri)->first();
+                if ($permission) {
+                    $permission->display_name = $display_name;
+                    $permission->save();
+                    $updated++;
+                } else {
                     $permission = new Permission;
                     $permission->name = $route->uri;
                     $permission->display_name = $display_name;
                     $total[] = $permission;
                     $permission->save();
                     $new++;
-                } catch (\Illuminate\Database\QueryException $ex) {
-                    // continue;
-                    $permission = Permission::where('name', $route->uri)->first();
-                    if ($permission && $permission->display_name != $display_name) {
-                        $permission->display_name = $display_name;
-                        $permission->save();
-                        $updated++;
-                    }
                 }
+
             }
         }
 
         $permissions = Permission::pluck('name')->toArray();
         $not_exist = array_diff($permissions, $route_uris);
         if ($not_exist) {
-            Permission::where('name', $not_exist)->delete();
+            Permission::whereIn('name', $not_exist)->delete();
         }
         $deleted = count($not_exist);
 
