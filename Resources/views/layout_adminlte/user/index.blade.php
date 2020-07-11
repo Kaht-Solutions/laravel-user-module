@@ -1,7 +1,4 @@
 @extends('theme::layout_adminlte.master')
-@section('head')
-<link rel="stylesheet" href="/adminlte/plugins/datatables/dataTables.bootstrap.css">
-@stop
 @section('title') {{ $title=trans('user::messages.users') }}
 @stop
 @section('content')
@@ -152,8 +149,6 @@
 </table>
 @endif
 
-<script src="/adminlte/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="/adminlte/plugins/datatables/dataTables.bootstrap.min.js"></script>
 
 
 
@@ -212,53 +207,6 @@
 });
     });
 </script>
-
-{{-- <script type="text/javascript">
-    $('.setpermission').change(function(e) {
-		$(this).closest('td').find('.submit_setpermission').css('display', 'block');
-
-	});
-	$('.submit_setpermission').click(function(e) {
-		var permission = $(this).closest('td').find('input:checkbox:checked').map(function() {
-			return this.value;
-		}).get();
-
-        
-        var user = $(this).attr('user');
-        
-
-		e.preventDefault();
-		var l = Ladda.create(this);
-		l.start();
-
-		$.ajax({
-			type : "POST",
-			url : "{{Request::root()}}/admin/user/setpermission",
-data : {
-user : user,
-permission : permission,
-_token : '{!! csrf_token() !!}'
-
-},
-success : function(data) {
-console.log(data);
-},
-error : function(xhr, desc, err) {
-console.log(xhr);
-console.log("Details: " + desc + "\nError:" + err);
-console.log("responseText: " + xhr.responseText);
-$('#ajax_response').html(xhr.responseText);
-}
-}, 'json').always(function() {
-l.stop();
-});
-$(this).fadeOut("slow");
-
-});
-
-</script> --}}
-
-
 
 
 
