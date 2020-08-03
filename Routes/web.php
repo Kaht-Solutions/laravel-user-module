@@ -33,7 +33,7 @@ Route::group(['middleware' => ['web', 'auth', 'clearcache', 'permission_check'],
 
     Route::get('/generate', 'UserController@generate_permissions');
 
-    Route::get('/api_index', 'UserController@api_index');
+    Route::get('/passport', 'UserController@passport');
 
     Route::group(['prefix' => 'role'], function () {
 

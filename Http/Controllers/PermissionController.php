@@ -5,11 +5,16 @@ namespace Modules\User\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Redirect;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Validator;
 use \Modules\Location\Models\Province;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 
+/**
+ * @group  User Module
+ *
+ * APIs for managing users , roles and permissions
+ */
 class PermissionController extends Controller
 {
 
@@ -18,21 +23,21 @@ class PermissionController extends Controller
 
         $permissions = Permission::all();
 
-        return view('user::'.env("ADMIN_THEME").'.permission.index')->with('permissions', $permissions);
+        return view('user::' . env("ADMIN_THEME") . '.permission.index')->with('permissions', $permissions);
     }
 
     public function Show()
     {
         $permission = Permission::find(Request::get('id'));
 
-        return view('user::'.env("ADMIN_THEME").'.permission.show')->with('permission', $permission);
+        return view('user::' . env("ADMIN_THEME") . '.permission.show')->with('permission', $permission);
 
     }
 
     public function Create()
     {
-        $provinces=Province::all();
-        return view('user::'.env("ADMIN_THEME").'.permission.create',['provinces'=>$provinces]);
+        $provinces = Province::all();
+        return view('user::' . env("ADMIN_THEME") . '.permission.create', ['provinces' => $provinces]);
     }
 
     public function Store(Request $request)
@@ -59,8 +64,8 @@ class PermissionController extends Controller
     {
         $id = $request->input('id');
         $permission = Permission::find($id);
-        $provinces=Province::all();
-        return view('user::'.env("ADMIN_THEME").'.permission.edit')->with('permission', $permission)->with('provinces',$provinces);
+        $provinces = Province::all();
+        return view('user::' . env("ADMIN_THEME") . '.permission.edit')->with('permission', $permission)->with('provinces', $provinces);
     }
 
     public function Update(Request $request)

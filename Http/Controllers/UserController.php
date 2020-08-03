@@ -5,6 +5,7 @@ namespace Modules\User\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\View\View;
 use Modules\Auth\Models\User;
 use Modules\Location\Models\Province;
 use Redirect;
@@ -12,10 +13,22 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Validator;
 
+/**
+ * @group  User Module
+ *
+ * Web routes for managing users , roles and permissions
+ */
 class UserController extends Controller
 {
 
-    public function index(Request $request)
+    /**
+     * Index of admin users
+     * @queryParam  type The name of a role to filter. Example: admin
+     * @authenticated
+     * @param Request
+     * @response View
+     */
+    public function index(Request $request): View
     {
 
         $users = User::
@@ -32,21 +45,28 @@ class UserController extends Controller
         return view('user::' . env("ADMIN_THEME") . '.user.index')->with(['users' => $users, 'roles' => $roles]);
     }
 
+    /**
+     * Index of admin panel
+     * @return Response
+     */
     public function adminindex()
     {
 
         return view('user::' . env("ADMIN_THEME") . '.adminindex');
     }
 
-    public function api_index()
+    /**
+     * Passport generated page for clients and tokens
+     * @return Response
+     */
+    public function passport()
     {
 
-        return view('user::' . env("ADMIN_THEME") . '.api_index');
+        return view('user::' . env("ADMIN_THEME") . '.passport');
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Response
+     * Show the form for creating a new User.
      */
     public function create()
     {
@@ -56,9 +76,11 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return Response
+     * Store a newly created User in database.
+     * @bodyParam name required name of the user
+     * @bodyParam family required family of the user
+     * @bodyParam mobile required mobile of the user
+     * @bodyParam password required password of the user
      */
     public function store(Request $request)
     {
@@ -67,7 +89,6 @@ class UserController extends Controller
             'name' => 'required|max:255',
             'family' => 'required|max:255',
             'mobile' => 'required|regex:/^[0][9][0-9]{9,9}$/|unique:usermodule_users',
-
             'password' => 'required|min:6',
         ]);
 
@@ -84,14 +105,12 @@ class UserController extends Controller
 
         $user->save();
 
-        // $user->syncRoles($role);
-
         return Redirect::back()->withErrors(trans('user::messages.done'));
     }
 
     /**
-     * Show the specified resource.
-     * @return Response
+     * Show the specified User.
+     * @return View
      */
     public function show(Request $request)
     {
@@ -108,7 +127,7 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified User.
      * @return Response
      */
     public function edit(Request $request)
@@ -124,7 +143,7 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified User in database.
      * @param  Request $request
      * @return Response
      */
@@ -161,7 +180,7 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified User from database.
      * @return Response
      */
     public function destroy(Request $request)

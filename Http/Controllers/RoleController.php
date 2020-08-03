@@ -10,6 +10,11 @@ use Spatie\Permission\Models\Role;
 use Validator;
 use \Modules\Location\Models\Province;
 
+/**
+ * @group  User Module
+ *
+ * APIs for managing users , roles and permissions
+ */
 class RoleController extends Controller
 {
 
