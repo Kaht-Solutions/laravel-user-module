@@ -18,7 +18,7 @@
 @else
 
 <table data-toggle="table" data-pagination="true" data-search="true" data-use-row-attr-func="true"
-    data-reorderable-rows="true" data-locale="fa-IR"
+    data-reorderable-rows="false" data-locale="fa-IR"
     class="table table-hover tablesorter table-striped table-borderd text-center">
     <thead>
         <tr class="info">
