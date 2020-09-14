@@ -106,24 +106,24 @@
 
                 @foreach($roles as $role)
                 <div class="checkbox checkbox-primary col-md-12 text-right">
-                    <input $user-="" class="styled setrole" id="{{$user->email.$role->id}}" type="radio"
-                        name="role{{$user->id}}" value="{{$role->id}}"
-                        {{ $user->role_ch($role->name) ? 'checked' : '' }} />
+                    <input class="styled setrole" id="{{$user->email.$role->id}}" type="radio" name="role{{$user->id}}"
+                        value="{{$role->id}}" {{ $user->role_ch($role->name) ? 'checked' : '' }} />
                     <label for="{{$user->email.$role->id}}">
                         {{$role->display_name}}
                     </label>
                 </div>
                 @endforeach
-                <a class="submit_setrole btn btn-primary ladda-button" data-size="l" data-style="zoom-out" href="#"
-                    style="display:none;" user="{{$user->id}}">
-                    <span class="ladda-label">
-                        {{ trans('user::messages.edit') }}
-                    </span>
+
+                <a class="submit_setrole btn btn-primary" href="#" user="{{$user->id}}">
+
+                    {{ trans('user::messages.edit') }}
+
                 </a>
 
                 <button class="btn btn-info show_permissions">نمایش اجازه های دسترسی</button>
 
                 <div class="block_permissions" style="display:none;">
+                    @if(isset($user->roles[0]))
                     @foreach($user->roles[0]->permissions as $permission)
                     <div class="checkbox checkbox-primary col-md-12 text-right">
                         <span class="fal fa-check text-success"></span>
@@ -133,6 +133,7 @@
 
                     </div>
                     @endforeach
+                    @endif
                 </div>
 
             </td>
@@ -153,10 +154,8 @@
 
 
 <script type="text/javascript">
-    $('.setrole').change(function(e) {
-		$(this).closest('td').find('.submit_setrole').css('display', 'block');
-
-	});
+    $( document ).ready(function() {
+    
 	$('.submit_setrole').click(function(e) {
 		var role = $(this).closest('td').find('input:radio:checked').map(function() {
 			return this.value;
@@ -165,9 +164,7 @@
         
 		var user = $(this).attr('user');
 
-		e.preventDefault();
-		var l = Ladda.create(this);
-		l.start();
+		
 
 		$.ajax({
 			type : "POST",
@@ -179,7 +176,15 @@
 
 			},
 			success : function(data) {
-				console.log(data);
+                Swal.fire({
+
+type: 'success',
+title: '{{trans("theme::routing.done")}}',
+confirmButtonText:
+'<i class="fal fa-check"></i>',
+confirmButtonColor: '#3085d6',
+timer: 150000
+})
 			},
 			error : function(xhr, desc, err) {
 				console.log(xhr);
@@ -188,17 +193,14 @@
 				$('#ajax_response').html(xhr.responseText);
 			}
 		}, 'json').always(function() {
-			l.stop();
+			
 		});
-		$(this).fadeOut("slow");
+		
 
 	});
 
-</script>
 
-
-<script type="text/javascript">
-    $( document ).ready(function() {
+    
 
     $(".show_permissions").click(function(){
       
