@@ -22,19 +22,19 @@
     class="table table-hover tablesorter table-striped table-borderd text-center">
     <thead>
         <tr class="info">
-            <th>
+            <th data-sortable="true">
                 <i class="fa fa-ellipsis-v"></i>
             </th>
-            <th>
+            <th data-sortable="true">
                 {{ trans('user::messages.display_name') }}
             </th>
-            <th>
+            <th data-sortable="true">
                 {{ trans('user::messages.content') }}
             </th>
-            <th>
+            <th data-sortable="true">
                 {{ trans('user::messages.created_at') }}
             </th>
-            <th>
+            <th data-sortable="true">
                 {{ trans('user::messages.updated_at') }}
             </th>
         </tr>

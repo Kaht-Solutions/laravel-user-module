@@ -45,23 +45,23 @@
         class="table table-hover tablesorter table-striped table-borderd text-center">
     <thead>
         <tr class="info">
-            <th>
+            <th data-sortable="true">
                 <i class="fa fa-ellipsis-v"></i>
-            <th>
+            <th data-sortable="true">
                 {{ trans('user::messages.name').' '.trans('user::messages.family') }}
             </th>
 
-            <th>
+            <th data-sortable="true">
                 {{ trans('user::messages.mobile') }}
             </th>
 
-            <th>
+            <th data-sortable="true">
                 {{ trans('user::messages.roles') }}
             </th>
 
 
 
-            <th>
+            <th data-sortable="true">
                 {{ trans('user::messages.created_at') }}
             </th>
 

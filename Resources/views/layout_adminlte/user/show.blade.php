@@ -10,19 +10,19 @@
             <th class="col-sm-4">
                 {{ trans('user::messages.name') }}
             </th>
-            <th>
+            <th data-sortable="true">
                 {{ trans('user::messages.created_at') }}
             </th>
-            <th>
+            <th data-sortable="true">
                 {{ trans('user::messages.updated_at') }}
             </th>
-            <th>
+            <th data-sortable="true">
                 {{ trans('user::messages.accesslevel') }}
             </th>
-            <th>
+            <th data-sortable="true">
                 {{ trans('user::messages.edit') }}
             </th>
-            <th>
+            <th data-sortable="true">
                 {{ trans('user::messages.delete') }}
             </th>
         </tr>
