@@ -2,8 +2,8 @@
 
 namespace Modules\User\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Support\ServiceProvider;
 
 class UserServiceProvider extends ServiceProvider
 {
@@ -19,6 +19,10 @@ class UserServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->registerFactories();
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
+
+        $this->commands([
+            \Modules\User\Console\DoSQLUser::class,
+        ]);
     }
 
     /**
@@ -39,11 +43,10 @@ class UserServiceProvider extends ServiceProvider
     protected function registerConfig()
     {
         $this->publishes([
-            __DIR__.'/../Config/config.php' => config_path('user.php'),
+            __DIR__ . '/../Config/config.php' => config_path('user.php'),
         ], 'config');
         $this->mergeConfigFrom(
-            __DIR__.'/../Config/config.php',
-            'user'
+            __DIR__ . '/../Config/config.php', 'user'
         );
     }
 
@@ -56,10 +59,10 @@ class UserServiceProvider extends ServiceProvider
     {
         $viewPath = resource_path('views/modules/user');
 
-        $sourcePath = __DIR__.'/../Resources/views';
+        $sourcePath = __DIR__ . '/../Resources/views';
 
         $this->publishes([
-            $sourcePath => $viewPath
+            $sourcePath => $viewPath,
         ], 'views');
 
         $this->loadViewsFrom(array_merge(array_map(function ($path) {
@@ -79,7 +82,7 @@ class UserServiceProvider extends ServiceProvider
         if (is_dir($langPath)) {
             $this->loadTranslationsFrom($langPath, 'user');
         } else {
-            $this->loadTranslationsFrom(__DIR__ .'/../Resources/lang', 'user');
+            $this->loadTranslationsFrom(__DIR__ . '/../Resources/lang', 'user');
         }
     }
 
@@ -90,7 +93,7 @@ class UserServiceProvider extends ServiceProvider
      */
     public function registerFactories()
     {
-        if (! app()->environment('production') && $this->app->runningInConsole()) {
+        if (!app()->environment('production') && $this->app->runningInConsole()) {
             app(Factory::class)->load(__DIR__ . '/../Database/factories');
         }
     }
