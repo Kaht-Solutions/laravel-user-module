@@ -30,13 +30,12 @@ class UserController extends Controller
      */
     public function index(Request $request): View
     {
-
         $users = User::
             when($request->filled('type'), function ($query) use ($request) {
-            $query->whereHas('roles', function ($sub_query) use ($request) {
-                $sub_query->where('name', $request->type);
-            });
-        })
+                $query->whereHas('roles', function ($sub_query) use ($request) {
+                    $sub_query->where('name', $request->type);
+                });
+            })
             ->with(['roles.permissions'])
             ->get();
 
@@ -51,7 +50,6 @@ class UserController extends Controller
      */
     public function adminindex()
     {
-
         return view('user::' . env("ADMIN_THEME") . '.adminindex');
     }
 
@@ -61,7 +59,6 @@ class UserController extends Controller
      */
     public function passport()
     {
-
         return view('user::' . env("ADMIN_THEME") . '.passport');
     }
 
@@ -123,7 +120,6 @@ class UserController extends Controller
         $permissions = Permission::all();
 
         return view('user::' . env("ADMIN_THEME") . '.user.show')->with(['user' => $user, 'permissions' => $permissions, 'roles' => $roles]);
-
     }
 
     /**
@@ -171,7 +167,6 @@ class UserController extends Controller
         $user->province_id = $request->input('province_id');
 
         if ($request->input('password')) {
-
             $user->password = bcrypt($request->input('password'));
         }
         $user->save();
@@ -203,7 +198,6 @@ class UserController extends Controller
 
         $user = $request->input('user');
         if ($request->ajax() && $role) {
-
             $user = User::find($user);
 
             $role = Role::whereIn('id', $role)->get();
@@ -211,7 +205,6 @@ class UserController extends Controller
             $user->syncRoles($role);
             return trans('user::messages.done');
         } elseif (!$role) {
-
             $user = User::find($user);
             $user->syncRoles([]);
 
@@ -221,19 +214,16 @@ class UserController extends Controller
     }
     public function setpermission(Request $request)
     {
-
         if ($request->filled('role')) {
             $role = $request->input('role');
             $permission = $request->input('permission');
             if ($request->ajax() && $permission) {
-
                 $role = Role::find($role);
                 $permission = Permission::whereIn('id', $permission)->get();
 
                 $role->syncPermissions($permission);
                 return trans('user::messages.done');
             } elseif (!$permission) {
-
                 $role = Role::find($role);
                 $role->syncPermissions([]);
 
@@ -243,14 +233,12 @@ class UserController extends Controller
             $user = $request->input('user');
             $permission = $request->input('permission');
             if ($request->ajax() && $permission) {
-
                 $user = User::find($user);
                 $permission = Permission::whereIn('id', $permission)->get();
 
                 $user->syncPermissions($permission);
                 return trans('user::messages.done');
             } elseif (!$permission) {
-
                 $user = Role::find($user);
                 $user->syncPermissions([]);
 
@@ -270,7 +258,6 @@ class UserController extends Controller
 
         foreach ($routeCollection as $route) {
             if (strpos($route->uri, 'admin') !== false) {
-
                 $uri_array = explode('/', $route->uri);
                 $display_name_array = [];
                 foreach ($uri_array as $obj) {
@@ -294,7 +281,6 @@ class UserController extends Controller
                     $permission->save();
                     $new++;
                 }
-
             }
         }
 

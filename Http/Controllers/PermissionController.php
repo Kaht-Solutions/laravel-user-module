@@ -17,10 +17,8 @@ use \Modules\Location\Models\Province;
  */
 class PermissionController extends Controller
 {
-
     public function Index()
     {
-
         $permissions = Permission::all();
 
         return view('user::' . env("ADMIN_THEME") . '.permission.index')->with('permissions', $permissions);
@@ -31,7 +29,6 @@ class PermissionController extends Controller
         $permission = Permission::find(Request::get('id'));
 
         return view('user::' . env("ADMIN_THEME") . '.permission.show')->with('permission', $permission);
-
     }
 
     public function Create()
@@ -42,7 +39,6 @@ class PermissionController extends Controller
 
     public function Store(Request $request)
     {
-
         $data = $request->all();
         $valid = Validator::make($data, [
             'name' => 'required|max:255|unique:usermodule_permissions',
@@ -70,7 +66,6 @@ class PermissionController extends Controller
 
     public function Update(Request $request)
     {
-
         $data = $request->all();
         $valid = Validator::make($data, [
             'name' => 'required|max:255|unique:usermodule_permissions,name,' . $data['id'],
@@ -88,7 +83,6 @@ class PermissionController extends Controller
         $permission->save();
 
         return Redirect::back()->withErrors(trans('user::messages.done'));
-
     }
 
     public function Destroy(Request $request)
@@ -99,5 +93,4 @@ class PermissionController extends Controller
 
         return Redirect::back()->withErrors(trans('user::messages.done'));
     }
-
 }

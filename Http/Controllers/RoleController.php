@@ -17,10 +17,8 @@ use \Modules\Location\Models\Province;
  */
 class RoleController extends Controller
 {
-
     public function Index()
     {
-
         $roles = Role::get();
 
         $permissions = Permission::all();
@@ -38,9 +36,7 @@ class RoleController extends Controller
             }
 
             if (!in_array($group_name, $permission_group_name)) {
-
                 $permission_group_name[] = $group_name;
-
             }
 
             $uri_array = explode('/', $group_name);
@@ -53,7 +49,6 @@ class RoleController extends Controller
             $display_name = implode(' -> ', $display_name_array);
             $permission_groups[$group_name]['name'] = $display_name;
             $permission_groups[$group_name]['permissions'][] = $permission;
-
         }
 
         return view('user::' . env("ADMIN_THEME") . '.role.index')
@@ -67,7 +62,6 @@ class RoleController extends Controller
         $role = Role::find(Request::get('id'));
 
         return view('user::' . env("ADMIN_THEME") . '.role.show')->with('role', $role);
-
     }
 
     public function Create()
@@ -78,7 +72,6 @@ class RoleController extends Controller
 
     public function Store(Request $request)
     {
-
         $data = $request->all();
         $valid = Validator::make($data, [
             'name' => 'required|max:255|unique:usermodule_roles',
@@ -106,7 +99,6 @@ class RoleController extends Controller
 
     public function Update(Request $request)
     {
-
         $data = $request->all();
         $valid = Validator::make($data, [
             'name' => 'required|max:255|unique:usermodule_roles,name,' . $data['id'],
@@ -124,7 +116,6 @@ class RoleController extends Controller
         $role->save();
 
         return Redirect::back()->withErrors(trans('user::messages.done'));
-
     }
 
     public function Destroy(Request $request)
@@ -135,5 +126,4 @@ class RoleController extends Controller
 
         return Redirect::back()->withErrors(trans('user::messages.done'));
     }
-
 }

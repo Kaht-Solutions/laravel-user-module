@@ -1,4 +1,4 @@
-<?php return array (
+<?php return array(
   ' add_option' => 'اضافه کردن گزینه',
   'about' => 'درباره ما',
   'about_kermanian' => 'درباره کرمانیان',

@@ -12,13 +12,10 @@
  */
 
 Route::group(['middleware' => ['web', 'auth', 'clearcache', 'permission_check'], 'prefix' => '/admin'], function () {
-
     Route::get('/', 'UserController@adminindex');
-
 });
 
 Route::group(['middleware' => ['web', 'auth', 'clearcache', 'permission_check'], 'prefix' => '/admin/user'], function () {
-
     Route::get('/', 'UserController@index');
     Route::get('show', 'UserController@show');
     Route::get('create', 'UserController@create');
@@ -36,7 +33,6 @@ Route::group(['middleware' => ['web', 'auth', 'clearcache', 'permission_check'],
     Route::get('/passport', 'UserController@passport');
 
     Route::group(['prefix' => 'role'], function () {
-
         Route::get('/', 'RoleController@index');
         Route::get('/show', 'RoleController@show');
         Route::get('/create', 'RoleController@create');
@@ -45,11 +41,9 @@ Route::group(['middleware' => ['web', 'auth', 'clearcache', 'permission_check'],
 
         Route::post('/store', 'RoleController@store');
         Route::post('/update', 'RoleController@update');
-
     });
 
     Route::group(['prefix' => 'permission'], function () {
-
         Route::get('/', 'PermissionController@index');
         Route::get('/show', 'PermissionController@show');
         Route::get('/create', 'PermissionController@create');
@@ -58,7 +52,5 @@ Route::group(['middleware' => ['web', 'auth', 'clearcache', 'permission_check'],
 
         Route::post('/store', 'PermissionController@store');
         Route::post('/update', 'PermissionController@update');
-
     });
-
 });
