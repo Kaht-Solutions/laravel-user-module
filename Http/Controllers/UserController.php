@@ -85,7 +85,7 @@ class UserController extends Controller
         $valid = Validator::make($data, [
             'name' => 'required|max:255',
             'family' => 'required|max:255',
-            'mobile' => 'required|regex:/^[0][9][0-9]{9,9}$/|unique:usermodule_users',
+            'mobile' => 'required|regex:/^[0][9][0-9]{9,9}$/|unique:user_module_users',
             'password' => 'required|min:6',
         ]);
 
@@ -153,7 +153,7 @@ class UserController extends Controller
         $valid = Validator::make($data, [
             'name' => 'required|max:255',
             'family' => 'required|max:255',
-            'mobile' => 'required|regex:/^[0][9][0-9]{9,9}$/|unique:usermodule_users,mobile,' . $request->input('id') . '|',
+            'mobile' => 'required|regex:/^[0][9][0-9]{9,9}$/|unique:user_module_users,mobile,' . $request->input('id') . '|',
         ]);
 
         if ($valid->fails()) {

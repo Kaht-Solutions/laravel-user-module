@@ -43,7 +43,7 @@
                 <div class="checkbox checkbox-primary">
                     <input $user-="" class="styled setrole" id="{{$user->email.$role->id}}" type="checkbox" 
                     value="{{$role->id}}"
-                        {{ $user->role_ch($role->name) ? 'checked' : '' }}>
+                        {{ $user->roleCheck($role->name) ? 'checked' : '' }}>
                         <label for="{{$user->email.$role->id}}">
                             {{$role->display_name}}
                         </label>

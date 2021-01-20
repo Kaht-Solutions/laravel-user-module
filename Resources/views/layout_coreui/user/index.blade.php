@@ -105,7 +105,7 @@
                 <div class="checkbox checkbox-primary col-md-12 text-right">
                     <input $user-="" class="styled setrole" id="{{$user->email.$role->id}}" type="radio"
                         name="role{{$user->id}}" value="{{$role->id}}"
-                        {{ $user->role_ch($role->name) ? 'checked' : '' }} />
+                        {{ $user->roleCheck($role->name) ? 'checked' : '' }} />
                     <label for="{{$user->email.$role->id}}">
                         {{$role->display_name}}
                     </label>

@@ -42,8 +42,8 @@ class PermissionController extends Controller
     {
         $data = $request->all();
         $valid = Validator::make($data, [
-            'name' => 'required|max:255|unique:usermodule_permissions,name',
-            'display_name' => 'required|max:255|unique:usermodule_permissions,display_name'
+            'name' => 'required|max:255|unique:user_module_permissions,name',
+            'display_name' => 'required|max:255|unique:user_module_permissions,display_name'
         ]);
 
         if ($valid->fails()) {
@@ -70,8 +70,8 @@ class PermissionController extends Controller
     {
         $data = $request->all();
         $valid = Validator::make($data, [
-            'name' => 'required|max:255|unique:usermodule_permissions,name,' . $data['id'],
-            'display_name' => 'required|max:255|unique:usermodule_permissions,display_name,' . $data['id']
+            'name' => 'required|max:255|unique:user_module_permissions,name,' . $data['id'],
+            'display_name' => 'required|max:255|unique:user_module_permissions,display_name,' . $data['id']
         ]);
 
         if ($valid->fails()) {

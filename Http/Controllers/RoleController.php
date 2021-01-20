@@ -74,8 +74,8 @@ class RoleController extends Controller
     {
         $data = $request->all();
         $valid = Validator::make($data, [
-            'name' => 'required|max:255|unique:usermodule_roles',
-            'display_name' => 'required|max:255|unique:usermodule_roles']);
+            'name' => 'required|max:255|unique:user_module_roles',
+            'display_name' => 'required|max:255|unique:user_module_roles']);
 
         if ($valid->fails()) {
             return Redirect::back()->withErrors($valid)->withInput();
@@ -101,8 +101,8 @@ class RoleController extends Controller
     {
         $data = $request->all();
         $valid = Validator::make($data, [
-            'name' => 'required|max:255|unique:usermodule_roles,name,' . $data['id'],
-            'display_name' => 'required|max:255|unique:usermodule_roles,display_name,' . $data['id']]);
+            'name' => 'required|max:255|unique:user_module_roles,name,' . $data['id'],
+            'display_name' => 'required|max:255|unique:user_module_roles,display_name,' . $data['id']]);
 
         if ($valid->fails()) {
             return Redirect::back()->withErrors($valid)->withInput();
