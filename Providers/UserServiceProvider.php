@@ -17,7 +17,7 @@ class UserServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
-        $this->registerFactories();
+        // $this->registerFactories();
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
 
         $this->commands([
@@ -46,7 +46,8 @@ class UserServiceProvider extends ServiceProvider
             __DIR__ . '/../Config/config.php' => config_path('user.php'),
         ], 'config');
         $this->mergeConfigFrom(
-            __DIR__ . '/../Config/config.php', 'user'
+            __DIR__ . '/../Config/config.php',
+            'user'
         );
     }
 
@@ -91,12 +92,12 @@ class UserServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function registerFactories()
-    {
-        if (!app()->environment('production') && $this->app->runningInConsole()) {
-            app(Factory::class)->load(__DIR__ . '/../Database/factories');
-        }
-    }
+    // public function registerFactories()
+    // {
+    //     if (!app()->environment('production') && $this->app->runningInConsole()) {
+    //         app(Factory::class)->load(__DIR__ . '/../Database/factories');
+    //     }
+    // }
 
     /**
      * Get the services provided by the provider.
