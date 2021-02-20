@@ -35,6 +35,6 @@ class CreateRolePermission extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_module_role_has_permissions');
+        Schema::dropIfExists('usermodule_role_has_permissions');
     }
 }

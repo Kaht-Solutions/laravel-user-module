@@ -29,6 +29,6 @@ class CreatePermissions extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_module_permissions');
+        Schema::dropIfExists('usermodule_permissions');
     }
 }

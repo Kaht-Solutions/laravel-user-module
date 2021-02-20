@@ -32,6 +32,6 @@ class CreateUserPermission extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_module_user_has_permissions');
+        Schema::dropIfExists('usermodule_user_has_permissions');
     }
 }

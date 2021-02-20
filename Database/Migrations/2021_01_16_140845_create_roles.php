@@ -29,6 +29,6 @@ class CreateRoles extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_module_roles');
+        Schema::dropIfExists('usermodule_roles');
     }
 }
