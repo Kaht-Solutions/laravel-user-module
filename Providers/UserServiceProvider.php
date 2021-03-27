@@ -2,7 +2,6 @@
 
 namespace Modules\User\Providers;
 
-use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\ServiceProvider;
 
 class UserServiceProvider extends ServiceProvider
@@ -17,9 +16,7 @@ class UserServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
-        // $this->registerFactories();
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
-
         $this->commands([
             \Modules\User\Console\DoSQLUser::class,
         ]);
@@ -86,18 +83,6 @@ class UserServiceProvider extends ServiceProvider
             $this->loadTranslationsFrom(__DIR__ . '/../Resources/lang', 'user');
         }
     }
-
-    /**
-     * Register an additional directory of factories.
-     *
-     * @return void
-     */
-    // public function registerFactories()
-    // {
-    //     if (!app()->environment('production') && $this->app->runningInConsole()) {
-    //         app(Factory::class)->load(__DIR__ . '/../Database/factories');
-    //     }
-    // }
 
     /**
      * Get the services provided by the provider.
